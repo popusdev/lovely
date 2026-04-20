@@ -1,8 +1,10 @@
 import { supabase } from "../services/supabaseClient"
 import { useState } from "react"
 import { Navigate, useNavigate } from "react-router-dom"
+import { useStore } from "../services/store"
 
 function Auth(){
+
     const [ page, setPage ] = useState("signup")
     const [ email, setEmail ] = useState("")
     const [ password, setPassword ] = useState("")
@@ -12,6 +14,7 @@ function Auth(){
     const [ rememberMe, setRememberMe ] = useState(false)
     const [ msg, setMsg ] = useState({ text: "", color: ""})
     const navigate = useNavigate()
+    const username = signUpEmail.split("@")[0]
 
     const handleRegister = async (e) => {
         e.preventDefault()
@@ -21,6 +24,11 @@ function Auth(){
         const { data, error } = await supabase.auth.signUp({
             email: signUpEmail,
             password: signUpPassword,
+            options : {
+                data : {
+                    display_name : username
+                }
+            }
         })
 
         if(error){
