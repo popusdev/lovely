@@ -5,10 +5,10 @@ import CreateConnection from "./CreateConnection";
 import { Navigate, useNavigate } from "react-router-dom";
 
 function Dashboard(){
-    const { user, connections } = useStore()
+    const { user, connections, invites } = useStore()
     const navigate = useNavigate()
 
-    console.log(connections)
+    console.log(connections, invites)
 
     return(
         <>
@@ -19,13 +19,25 @@ function Dashboard(){
                             welcome, {user?.user_metadata?.display_name}
                         </div>
                         <div className="dashboardConnections">
-                            {connections.length == 0 ? 
+                            {invites.length == 0 ? 
                             <div className="connectionCreateDiv">
                                 <button className="connectionCreateButton" onClick={() => navigate("/createconnection")}>create a connection</button>
                             </div>
                             : 
-                            <div className="connectionEx">
-
+                            <div className="connectionCreateDiv">
+                                {invites.map((invite) => (
+                                <div key={invite.id} className="connectionNavigate" onClick={() => {
+                                                                                                if (invite.status !== "accepted") return;
+                                                                                                    navigate(`/connection/${invite.id}`);
+                                                                                                }}>
+                                    <div className="connectionStatus">
+                                    status: {invite.status}
+                                    </div>
+                                    <div className="connectionName">
+                                    {invite.receiver_email}
+                                    </div>
+                                </div>
+                                ))}
                             </div>}
                         </div>
                     </div>

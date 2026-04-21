@@ -4,12 +4,12 @@ import { supabase } from "../services/supabaseClient";
 import { useEffect, useState } from "react";
 
 function InvitePage(){
-    const token = useParams()
+    const { token } = useParams()
     const { user, loading } = useStore()
     const navigate = useNavigate()
     
     const [ invite, setInvite ] = useState(null)
-    const [ msg, setMsg ] = useState({text: text, color: color})
+    const [ msg, setMsg ] = useState({text: "", color: ""})
     const [ processing, setProcessing ] = useState(null)
 
     useEffect(() => {
@@ -29,16 +29,21 @@ function InvitePage(){
         FetchInvite()
     }, [token])
 
-    if (!user) return <Navigate to="/" state={{ inviteToken: token }} />
+    useEffect(() => {
+        if (!invite) return;
 
-    if (invite.status === "accepted") {
-        setMsg({text: "the invitation has already been used", color: "red"})
+        if (invite && invite.status === "accepted") {
+            setMsg({ text: "already used", color: "red" });
+        }
+    }, [invite]);
+
+    if(invite && invite.sender === user.id) {
+        setMsg({text: "you can't invite yourself", color: "red"})
         return
     }
 
-    if (invite.sender === user.id) {
-        setMsg({text: "you can't invite yourself", color: "red"})
-        return
+    if (!invite) {
+        return <div>loading invite...</div>;
     }
 
     const handleAccept = async () => {
@@ -67,11 +72,13 @@ function InvitePage(){
       }
     }
 
+    console.log(invite)
+
     return(
         <>
-            {msg ? <div className="message" style={{backgroundColor: msg.color}}>{msg.text}</div> : ""}
+            {msg.text ? <div className="message" style={{backgroundColor: msg.color}}>{msg.text}</div> : ""}
             <div className="center">
-                
+                <div className="authBox">asdnaj</div>
             </div>
         </>
     )

@@ -1,6 +1,6 @@
 import { supabase } from "../services/supabaseClient";
 import { useStore } from "../services/store";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CustomSelect from "./CustomSelect";
 
 function CreateConnection(){
@@ -19,7 +19,7 @@ function CreateConnection(){
                 sender: user.id,
                 receiver_email: email,
             })
-            .select()
+            .select("token")
             .single();
 
             if(error){
@@ -34,7 +34,7 @@ function CreateConnection(){
 
     return(
         <>
-            {msg ? <div className="message" style={{backgroundColor: msg.color}}>{msg.text}</div> : ""}
+            {msg.text ? <div className="message" style={{backgroundColor: msg.color}}>{msg.text}</div> : ""}
             <div className="center">
                 <div className="createBox">
                     <div className="createHeader">create connection</div>

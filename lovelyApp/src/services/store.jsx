@@ -19,6 +19,9 @@ export function StoreProvider({ children }) {
   // 📅 DATES
   const [dates, setDates] = useState([]);
 
+  // invites
+  const [invites, setInvites] = useState([]);
+
   const [loading, setLoading] = useState(true);
 
   // -------------------------
@@ -51,6 +54,23 @@ export function StoreProvider({ children }) {
       .or(`user1.eq.${user.id},user2.eq.${user.id}`);
 
     setConnections(data || []);
+  };
+
+  // fetch invite
+  const fetchInvites = async () => {
+    if (!user) return;
+
+    const { data, error } = await supabase
+      .from("invites")
+      .select("*")
+      .or(`sender.eq.${user.id},receiver_email.eq.${user.email}`);
+
+    if (error) {
+      console.log(error);
+      return;
+    }
+
+    setInvites(data || []);
   };
 
   // -------------------------
@@ -118,6 +138,7 @@ export function StoreProvider({ children }) {
   useEffect(() => {
     if (user) {
       fetchConnections();
+      fetchInvites()
     }
   }, [user]);
 
@@ -130,6 +151,8 @@ export function StoreProvider({ children }) {
         messages,
         photos,
         dates,
+        invites,
+        fetchInvites,
         fetchConnections,
         fetchMessages,
         sendMessage,
