@@ -4,6 +4,7 @@ function Connection(){
 
     return(
         <>
+            <div className="authBox">dziala connection</div>
         </>
     )
 }

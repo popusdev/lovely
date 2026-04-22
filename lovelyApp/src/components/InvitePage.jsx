@@ -78,7 +78,19 @@ function InvitePage(){
         <>
             {msg.text ? <div className="message" style={{backgroundColor: msg.color}}>{msg.text}</div> : ""}
             <div className="center">
-                <div className="authBox">asdnaj</div>
+                <div className="inviteBox">
+                    <div className="inviteHeader">
+                        {invite.receiver_email == user.email ? `you have got an invitation from ${invite.sender}` : ""}
+                    </div>
+                    <div className="inviteButtonsBox">
+                        <div className="inviteButtonAccept" onClick={handleAccept}>
+                            ACCEPT
+                        </div>
+                        <div className="inviteButtonReject">
+                            REJECT
+                        </div>
+                    </div>
+                </div>
             </div>
         </>
     )
