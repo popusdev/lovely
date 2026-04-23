@@ -66,6 +66,7 @@ function InvitePage(){
       .single();
 
       if(error){
+        console.log(error)
         setMsg({text: "creating connection failed", color: "red"})
         setProcessing(false)
         return

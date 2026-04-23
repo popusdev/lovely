@@ -4,7 +4,9 @@ function Connection(){
 
     return(
         <>
-            <div className="authBox">dziala connection</div>
+            <div className="center">
+                
+            </div>
         </>
     )
 }

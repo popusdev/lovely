@@ -350,7 +350,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 10px;
+  font-size: clamp(10px, 4vw, 20px);
   z-index: 999;
 }
 
@@ -360,6 +360,7 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: clamp(16px, 4vw, 30px);
 }
 
 .inviteBox{
